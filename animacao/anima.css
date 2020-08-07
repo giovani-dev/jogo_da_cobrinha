@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+#caixa{
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    position: relative;
+    margin: 0 auto;
+}
+
+#comida{
+    height: 15px;
+    width: 15px;
+    position:fixed;
+    z-index:999;
+    left:0%;
+    right: 0%;
+    top:0;
+    overflow:hidden;
+    background: purple;
+}
+
+#tela{
+    margin: 0 auto;
+    margin-top: 5%;
+    border: 1px solid black;
+    width: 720px;
+    height: 720px;
+}
