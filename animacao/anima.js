@@ -1,7 +1,8 @@
+import { teste } from "./modulo/jogador.js";
+
 var eixo_x = 0;
 var eixo_y = 0;
 var velocidade = 5;
-
 
 window.onload=function(){
     var caixa = document.getElementById("caixa");
@@ -23,7 +24,7 @@ function movimenta_eixo_y(valor){
 }
 
 function gera_posicao_comida(){
-    return Math.floor(Math.random()* (720 - tela.getBoundingClientRect().left)) + tela.getBoundingClientRect().left;
+    return Math.floor(Math.random()* (500 - tela.getBoundingClientRect().left)) + tela.getBoundingClientRect().left;
 }
 
 function imprime_comida(){
@@ -31,40 +32,31 @@ function imprime_comida(){
     comida.style.marginTop = gera_posicao_comida()+'px';
 }
 
-function altera_tamanho_jogador(eixo, obj, valor){
-    var pos_att = obj.getBoundingClientRect().width+valor;
-    switch(eixo){
-        case 'x':
-            obj.style.width = pos_att+'px';
-            break;
-        case 'y':
-            obj.style.heigth = pos_att+'px';
-            break;
-    }
+function colide_esquerda(){
+    return caixa.getBoundingClientRect().left <= tela.getBoundingClientRect().left;
+}
+
+function colide_topo(){
+    return caixa.getBoundingClientRect().top <= tela.getBoundingClientRect().top;
 }
 
 function colide_jogador(){
-    if(caixa.getBoundingClientRect().left <= tela.getBoundingClientRect().left){
-        movimenta_eixo_x(velocidade)
-        altera_tamanho_jogador('x', caixa, -velocidade);
-        console.log('E maior que a tela');
+    if(colide_topo()){
+        movimenta_eixo_x(velocidade);
     }
-    else if(caixa.getBoundingClientRect().rigth >= tela.getBoundingClientRect().rigth){
-        movimenta_eixo_x(-velocidade)
-        altera_tamanho_jogador('x', caixa, -velocidade);
-        console.log('é maior que a tela');
+    if(caixa.getBoundingClientRect().left >= (tela.getBoundingClientRect().right - caixa.getBoundingClientRect().width)){
+        movimenta_eixo_x(-velocidade);
     }
-    else if(caixa.getBoundingClientRect().width < 15){
-        movimenta_eixo_x(-velocidade)
-        altera_tamanho_jogador('x', caixa, velocidade);
-    }
-    console.log("jogador -> margem esquerda: "+caixa.style.marginLeft);
-    console.log("jogador ->  margem do topo: "+caixa.style.marginTop);
-    // if(eixo_x)
+    // if(){
+    //     console.log('passou o topo');
+    //     movimenta_eixo_y(velocidade);
+    // }
+    console.log('caixa top -> ', caixa.getBoundingClientRect().top);
+    console.log('tela top -> ', tela.getBoundingClientRect().top);
 }
 
-// var intervalo = setInterval(function deslocamento(){
-var intervalo = setInterval(document.addEventListener("keypress", function(event){
+
+let intervalo = setInterval(document.addEventListener("keypress", function(event){
     // Para cima (w)
     if(event.keyCode == 119){
         movimenta_eixo_y(-velocidade);
@@ -88,8 +80,6 @@ var intervalo = setInterval(document.addEventListener("keypress", function(event
     if((intervalo % 4) == 0 ){
         clearInterval(intervalo);
     }
-    console.log('tela direita -> '+tela.getBoundingClientRect().right);
-    console.log('caixa direita -> '+caixa.getBoundingClientRect().right);
+    console.log(event.keyCode)
     colide_jogador();
 }), 400);
-// }, 400);
